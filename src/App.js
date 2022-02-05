@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Component } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import NoteGroup from "./components/NoteGroup";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            notes: [],
+        };
+        this.addNote = this.addNote.bind(this);
+        this.removeNote = this.removeNote.bind(this);
+    }
+
+    addNote(note) {
+        this.setState({ notes: [note, ...this.state.notes] });
+    }
+
+    removeNote(id) {
+        this.setState({
+            notes: this.state.notes.filter((note) => note.id !== id),
+        });
+    }
+
+    render() {
+        return (
+            <div className="App w-100">
+                <header className="App-header w-100 pt-5 d-flex align-items-start">
+                    <NoteGroup
+                        addNote={this.addNote}
+                        removeNote={this.removeNote}
+                        notes={this.state.notes}
+                    />
+                </header>
+            </div>
+        );
+    }
 }
-
-export default App;
